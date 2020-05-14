@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8" />
+  <script>
+    // TODO: create a handler
+    window.addEventListener("load", function () {
+      // TODO: register the handler
+      console.log("window has loaded, DOM elements locked and loaded.");
+
+      let form = document.getElementById("searchForm");
+
+      setSearchEngine = function () {
+        let actions = {
+          google: "https://www.google.com/search?q=",
+          duckDuckGo: "https://www.duckduckgo.com/?q=",
+          bing: "https://www.bing.com/search?q=",
+          ask: "https://www.ask.com/web?q=",
+        };
+
+        let queryString = document.getElementById("search").value;
+        let selector = document.querySelector("input[name=engine]:checked");
+
+        if (queryString === "" || selector === undefined) {
+          alert("There is an empty field.");
+        }
+
+        let stringystring = "";
+        for (let char of queryString) {
+          if (char === " ") {
+            stringystring += "+";
+          } else {
+            stringystring += char;
+          }
+        }
+
+        for (const engine in actions) {
+          if (engine === selector.value) {
+            stringystring = actions[engine] + stringystring;
+          }
+        }
+        document.getElementById("log").innerHTML = stringystring;
+        form.setAttribute("action", stringystring);
+      };
+
+      form.addEventListener("submit", setSearchEngine);
+    });
+  </script>
+</head>
+
+<body>
+  <h3>My amazing and unique search program with JS.</h3>
+  <form id="searchForm" action="" method="GET">
+    <!-- TODO: add form elements -->
+    <label>Search: </label><input type="text" name="q" id="search" /><br /><br />
+    <label><input type="radio" name="engine" value="google" />Google</label><br />
+    <label><input type="radio" name="engine" value="duckDuckGo" />DuckDuckGo</label><br />
+    <label><input type="radio" name="engine" value="bing" />Bing</label><br />
+    <label><input type="radio" name="engine" value="ask" />Ask</label><br /><br />
+    <button value="Go!">Go</button><br />
+  </form>
+
+  <p id="log"></p>
+</body>
